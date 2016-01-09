@@ -1,25 +1,15 @@
 require_relative "../classes/transaction"
 
 describe "Transaction" do
-  let(:transaction) { Transaction.new(true, 100, 20) }
+  let(:transaction) { Transaction.new(100, 1, :withdrawal) }
   describe "#initialize" do
-    describe '#credit' do
-      it "should respond to #type" do
-        expect(transaction).to respond_to(:credit)
-      end
-
-      it "should be a boolean " do
-        expect([true, false]).to include(transaction.credit)
-      end
-    end#credit
-
     describe '#amount' do
       it "should respond to #amount" do
         expect(transaction).to respond_to(:amount)
       end
 
-      it "should be a Fixnum" do
-        expect(transaction.amount).to be_a(Fixnum)
+      it "should raise error if amount is invalid" do
+        expect { Transaction.new("invalid", 1, :withdrawal) }.to raise_error(RuntimeError)
       end
     end#amount
 
@@ -28,12 +18,23 @@ describe "Transaction" do
         expect(transaction).to respond_to(:day)
       end
 
-      it "should be a Fixnum" do
-        expect(transaction.day).to be_a(Fixnum)
+      it "should raise error if day is invalid" do
+        expect { Transaction.new(100, "invalid", :payment) }.to raise_error(RuntimeError)
+      end
+
+      it "should raise error if day is outside 1-30" do
+        expect { Transaction.new(100, 100, :payment) }.to raise_error(RuntimeError)
       end
     end#day
 
+    describe '#type' do
+      it "shoudl respond to #type" do
+        expect(transaction).to respond_to(:type)
+      end
+
+      it "should raise error if type is invalid" do
+          expect { Transaction.new(100, 25, "invalid") }.to raise_error(RuntimeError)
+      end
+    end#type
   end#initialize
-
-
 end#Transaction

@@ -1,16 +1,15 @@
 def Client
+  def inititalize(name)
+    @name = name
+  end
 
-def credit(account, amount)
+  def make_payment(amount, account, day)
+    transaction = Transaction.new(amount, day, :payment)
+    account.import_transaction(transaction)
+  end
 
-end
+  def make_withdrawal(amount, account)
 
-def credit(account, amount)
-
-end
-
-
-#           Debit     Credit
-# Asset     Increase  Decrease
-# Liability Decrease  Increase
+  end
 
 end
