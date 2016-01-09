@@ -3,12 +3,12 @@ def Client
     @name = name
   end
 
-  def make_payment(amount, account, day)
+  def make_payment(credit_line, amount, day)
     transaction = Transaction.new(amount, day, :payment)
     account.import_transaction(transaction)
   end
 
-  def make_withdrawal(amount, account)
+  def make_withdrawal(credit_line, amount, day)
 
   end
 

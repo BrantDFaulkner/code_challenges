@@ -37,7 +37,7 @@ describe "CreditLine" do
       end
 
       it "should be zero" do
-        expect(credit_line.principle_balance).to eql(0.0)
+        expect(credit_line.principle_balance).to equal(0.0)
       end
     end#principle_balance
 
@@ -47,10 +47,23 @@ describe "CreditLine" do
       end
 
       it "should be zero" do
-        expect(credit_line.interest_balance).to eql(0.0)
+        expect(credit_line.interest_balance).to equal(0.0)
       end
     end#interest_balance
 
-
+    describe "#transaction_history" do
+      it "should be an empty aray" do
+        expect(credit_line.transaction_history.length).to equal(0)
+      end
+    end#transaction_history
   end#initialize
+
+  describe "#import_transaction" do
+    it "should add a transaction to the #transaction_history" do
+      credit_line = CreditLine.new(1000, 35)
+      transaction = Transaction.new(200, 1, :withdrawal)
+      credit_line.import_transaction(transaction)
+      expect(credit_line.transaction_history.length).to equal(1)
+    end
+  end
 end#Transaction
