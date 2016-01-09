@@ -1,16 +1,19 @@
 require_relative "../classes/credit_line"
 
 describe "CreditLine" do
-  # let(:credit_line) { CreditLine.new(1000, 35) }
+  let(:credit_line) { CreditLine.new(1000, 35) }
   describe "#initialize" do
-    credit_line = CreditLine.new(1000, 35)
     describe '#credit_limit' do
       it "should respond to #type" do
         expect(credit_line).to respond_to(:credit_limit)
       end
 
-      it "should be a Float " do
-        expect(credit_line.credit_limit).to be_a(Float)
+      it "should raise error if amount is invalid" do
+        expect { CreditLine.new("invalid", 35) }.to raise_error(RuntimeError)
+      end
+
+      it "should raise error if amount is over 10000" do
+        expect { CreditLine.new(100000, 35) }.to raise_error(RuntimeError)
       end
     end#credit_limit
 
@@ -19,8 +22,12 @@ describe "CreditLine" do
         expect(credit_line).to respond_to(:apr)
       end
 
-      it "should be a Float " do
-        expect(credit_line.apr).to be_a(Float)
+      it "should raise error if apr is invalid" do
+        expect { CreditLine.new(1000, "invalid") }.to raise_error(RuntimeError)
+      end
+
+      it "should raise error if apr is outside range 0-100" do
+        expect { CreditLine.new(1000, 150) }.to raise_error(RuntimeError)
       end
     end#apr
 
