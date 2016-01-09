@@ -35,7 +35,7 @@ class CreditLine
   end
 
   def update_principle_balance
-    transaction_history.map do |transaction|
+    self.principle_balance = transaction_history.map do |transaction|
       if transaction.type == :withdrawal
         transaction.amount
       else

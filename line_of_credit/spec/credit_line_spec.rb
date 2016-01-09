@@ -1,4 +1,6 @@
 require_relative "../classes/credit_line"
+require_relative "../classes/transaction"
+
 
 describe "CreditLine" do
   let(:credit_line) { CreditLine.new(1000, 35) }
@@ -58,12 +60,28 @@ describe "CreditLine" do
     end#transaction_history
   end#initialize
 
-  describe "#import_transaction" do
-    it "should add a transaction to the #transaction_history" do
-      credit_line = CreditLine.new(1000, 35)
-      transaction = Transaction.new(200, 1, :withdrawal)
-      credit_line.import_transaction(transaction)
-      expect(credit_line.transaction_history.length).to equal(1)
+  context "make three transactions" do
+    credit_line = CreditLine.new(1000, 35)
+    transactions = [
+      Transaction.new(500, 1, :withdrawal),
+      Transaction.new(100, 5, :payment),
+      Transaction.new(200, 25, :withdrawal)
+    ]
+    transactions.each { |t| credit_line.import_transaction(t)}
+
+    describe "#import_transaction" do
+      it "should add a transaction to the #transaction_history" do
+        expect(credit_line.transaction_history.length).to equal(3)
+      end
+    end#import_transaction
+
+    describe "#update_principle_balance" do
+      it "should set #principle_balance to the sum of the transactions" do
+        credit_line.update_principle_balance
+        expect(credit_line.principle_balance).to equal(600.0)
+      end
     end
-  end
+
+
+  end#context
 end#Transaction
