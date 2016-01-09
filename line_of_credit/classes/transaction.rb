@@ -1,3 +1,11 @@
-def Transaction
-  #is a payment of draws on line o credit
+class Transaction
+  attr_reader :credit, :amount, :day
+
+  def initialize(credit, amount, day)
+    @credit = credit
+    @amount = amount
+    @day = day
+  end
+
+
 end
