@@ -64,8 +64,8 @@ describe "CreditLine" do
     credit_line = CreditLine.new(1000, 35)
     transactions = [
       Transaction.new(500, 1, :withdrawal),
-      Transaction.new(100, 5, :payment),
-      Transaction.new(200, 25, :withdrawal)
+      Transaction.new(100, 25, :payment),
+      Transaction.new(200, 5, :withdrawal)
     ]
     transactions.each { |t| credit_line.import_transaction(t)}
 
@@ -80,6 +80,11 @@ describe "CreditLine" do
         credit_line.update_principle_balance
         expect(credit_line.principle_balance).to equal(600.0)
       end
+    end
+
+    describe "#update_interest_balance" do
+      it "should update the interest balance at a specific day"
+      credit_line.update_interest_balance(30)
     end
 
 

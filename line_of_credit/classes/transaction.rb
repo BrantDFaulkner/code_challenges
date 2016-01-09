@@ -1,10 +1,16 @@
 class Transaction
+  attr_accessor :value
   attr_reader :amount, :day, :type
 
   def initialize(amount, day, type)
     @type = validate_type(type)
     @amount = validate_amount(amount)
     @day = validate_day(day)
+    @value = set_value#!!!! NOT TESTED
+  end
+
+  def set_value#!!!!!! NOT TESTED
+    withdrawal? ? amount : -amount
   end
 
   def validate_amount(amount)
@@ -13,6 +19,10 @@ class Transaction
     else
       amount.to_f
     end
+  end
+
+  def withdrawal?
+    !!(type == :withdrawal)
   end
 
   def validate_day(day)
