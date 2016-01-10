@@ -54,8 +54,8 @@ describe "CreditLine" do
     end#interest_balance
 
     describe "#transaction_history" do
-      it "should have a seed transaction" do
-        expect(credit_line.transaction_history.length).to equal(1)
+      it "should be empty" do
+        expect(credit_line.transaction_history.empty?).to be_truthy
       end
     end#transaction_history
   end#initialize
@@ -71,7 +71,7 @@ describe "CreditLine" do
 
     describe "#import_transaction" do
       it "should add a transaction to the #transaction_history" do
-        expect(credit_line.transaction_history.length).to equal(4)
+        expect(credit_line.transaction_history.length).to equal(3)
       end
     end#import_transaction
 
