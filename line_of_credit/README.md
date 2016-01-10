@@ -1,5 +1,4 @@
 #Line of Credit
-test
 
 ##Language
 I was allowed to choose the language with which to complete this challenge.
