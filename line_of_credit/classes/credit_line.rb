@@ -1,7 +1,7 @@
 require_relative "transaction"
 
 class CreditLine
-  attr_accessor :principle_balance, :interest_balance, :current_day, :transaction_history, :remaining_credit
+  attr_accessor :principle_balance, :interest_balance, :current_day, :transaction_history, :remaining_credit, :last_transaction_day
   attr_reader :credit_limit, :apr
 
   def initialize(credit_limit, apr)
@@ -10,68 +10,49 @@ class CreditLine
     @principle_balance = 0.0
     @interest_balance = 0.0
     @remaining_credit = credit_limit#WRITE SPECS
-    @transaction_history = [Transaction.new(0, 1, :withdrawal)]
+    @transaction_history = []
+    @last_transaction_day = 0
   end
 
   def import_transaction(transaction)
-    # sort_transaction_history if transaction.day <= transaction_history.last.day
     self.transaction_history << validate_transaction(transaction)
-    update_balances(transaction)
+    if transaction_history.length == 1
+      self.principle_balance = transaction.value
+      self.interest_balance += recent_interest(transaction.day)
+      self.remaining_credit = credit_limit - principle_balance - interest_balance
+      self.last_transaction_day = transaction.day
+    else
+      update_balances(transaction)
+    end
   end
-
-  # def update_principle_balance
-  #   return 0 if transaction_history.empty?
-  #   self.principle_balance = transaction_history.map(&:value).reduce(:+)
-  # end
 
   def update_balances(transaction)#WRITE SPECS
-      self.interest_balance += transaction_day_adjustment(transaction)
-      # self.interest_balance += day_of_transaction_adjustment(t)
-      self.interest_balance += recent_interest(transaction.day)
-      self.principle_balance += transaction.value
-      self.remaining_credit = credit_limit - principle_balance - interest_balance
-  end
-
-  def current_statement(current_day)#WRITE SPECS
-    {
-    credit_limit: "$#{credit_limit.round(2)}",
-    apr: "%#{(apr * 100).round(2)}",
-    principle_balance: "#{principle_balance.round(2)}",
-    interest_balance: "$#{(interest_balance + recent_interest(current_day)).round(2)}",
-    total_balance: "$#{(principle_balance + interest_balance + recent_interest(current_day)).round(2)}",
-    remaining_credit: "$#{(remaining_credit - recent_interest(current_day)).round(2)}"}
+    self.interest_balance += recent_interest(transaction.day)
+    self.principle_balance += transaction.value
+    self.remaining_credit = credit_limit - principle_balance - interest_balance
+    self.last_transaction_day = transaction.day
   end
 
   def recent_interest(current_day)#WRITE SPECS
-    daily_interest_principle * accumulation_period(current_day)
+    daily_interest * accumulation_period(current_day)
   end
 
   def accumulation_period(current_day)#WRITE SPECS
-    current_day - transaction_history.last.day
+    current_day - last_transaction_day
   end
 
-  def update_interest_balance(final_day)
-    transaction_history.each do |t|
-      # self.interest_balance += day_of_transaction_adjustment(t)
-      # period_length = t.day - last_day
-      # last_day = t.day
-      # self.interest_balance += principle_balance * apr * (period_length/365.0)
-      # self.principle_balance += t.value
-    end
-    # final_period_length = final_day - last_day
-    # self.interest_balance += principle_balance * apr * (final_period_length/365.0)
-  end
+  def daily_interest#WRITE SPECS
 
-  def daily_interest_principle#WRITE SPECS
     (principle_balance * apr) / 365.0
   end
 
-  def daily_interest_transaction(transaction)#WRITE SPECS
-    (transaction.amount * apr) / 365.0
-  end
-
-  def transaction_day_adjustment(transaction)#WRITE SPECS
-    transaction.withdrawal? ? daily_interest_transaction(transaction) : -(daily_interest_transaction(transaction)/2.0)
+  def current_statement(current_day)
+    {credit_limit: credit_limit.round(2),
+    apr: apr,
+    principle_balance: principle_balance.round(2),
+    interest_balance: (interest_balance + recent_interest(current_day)).round(2),
+    total_balance: (principle_balance + interest_balance + recent_interest(current_day)).round(2),
+    remaining_credit: (remaining_credit - recent_interest(current_day)).round(2)}
   end
 
 private
