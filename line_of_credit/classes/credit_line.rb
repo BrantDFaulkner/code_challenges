@@ -12,7 +12,7 @@ class CreditLine
     @apr = validate_apr(apr)
     @principle_balance = 0.0
     @interest_balance = 0.0
-    @transaction_history = []
+    @transaction_history = [Transaction.new(0, 1, :withdrawal)]
   end
 
   def import_transaction(transaction)
@@ -20,19 +20,13 @@ class CreditLine
     self.transaction_history << validate_transaction(transaction)
   end
 
-  def validate_transaction(transaction)
-    raise "#withdrawal would violate credit_limit" unless true#Write #check_for_credit_limit_violation
-    raise "#payment would create a negative balance" unless true#Write #check_for_over_payment
-    transaction
-  end
+  # def update_principle_balance
+  #   return 0 if transaction_history.empty?
+  #   self.principle_balance = transaction_history.map(&:value).reduce(:+)
+  # end
 
-  def sort_transaction_history
-    self.transaction_history.sort! { |a,b| a.day <=> b.day }
-  end
+  def calculate_balances
 
-  def update_principle_balance
-    return 0 if transaction_history.empty?
-    self.principle_balance = transaction_history.map(&:value).reduce(:+)
   end
 
   def update_interest_balance(final_day)#!!!!!!!NOT TESTED
@@ -69,6 +63,16 @@ private
     raise "#apr must be numeric." unless apr.is_a?(Numeric)
     raise "#apr must be between 0 and 100 inclusive." unless apr.between?(0, 100)
     apr/100.0
+  end
+
+  def validate_transaction(transaction)
+    raise "#withdrawal would violate credit_limit" unless true#Write #over_credit_limit?
+    raise "#payment would create a negative balance" unless true#Write #over_payment?
+    transaction
+  end
+
+  def sort_transaction_history
+    self.transaction_history.sort! { |a,b| a.day <=> b.day }
   end
 
 end#CreditLine
