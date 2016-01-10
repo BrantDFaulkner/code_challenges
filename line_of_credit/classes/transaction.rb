@@ -35,5 +35,4 @@ class Transaction
     raise "#type must be :payment or :withdrawal" unless [:payment, :withdrawal].include?(type)
     type
   end
-
 end#Transaction

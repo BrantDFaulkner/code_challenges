@@ -4,6 +4,7 @@ require_relative "../classes/transaction"
 
 describe "CreditLine" do
   let(:credit_line) { CreditLine.new(1000, 35) }
+  let(:transaction) { Transaction.new(500, 10, :withdrawal) }
   describe "#initialize" do
     describe '#credit_limit' do
       it "should respond to #credit_limit" do
@@ -74,19 +75,12 @@ describe "CreditLine" do
         expect(credit_line.transaction_history.length).to equal(3)
       end
     end#import_transaction
-
-    # describe "#update_principle_balance" do
-    #   it "should set #principle_balance to the sum of the transactions" do
-    #     credit_line.update_principle_balance
-    #     expect(credit_line.principle_balance).to equal(600.0)
-    #   end
-    # end
-
-    # describe "#update_interest_balance" do
-    #   it "should update the interest balance at a specific day"
-    #   credit_line.update_interest_balance(30)
-    # end
-
-
   end#context
+
+  describe "#over_credit_limit" do
+    credit_line = CreditLine.new(1000, 35)
+    it "should return a boolean" do
+      expect([true, false]).to include(credit_line.send(:over_credit_limit?, transaction))
+    end
+  end#over_credit_limit
 end#Transaction

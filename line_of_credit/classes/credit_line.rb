@@ -1,7 +1,7 @@
 require_relative "transaction"
 
 class CreditLine
-  attr_accessor :principle_balance, :interest_balance, :current_day, :transaction_history, :remaining_credit, :last_transaction_day
+  attr_accessor :principle_balance, :interest_balance, :transaction_history, :remaining_credit, :last_transaction_day
   attr_reader :credit_limit, :apr
 
   def initialize(credit_limit, apr)
@@ -9,41 +9,26 @@ class CreditLine
     @apr = validate_apr(apr)
     @principle_balance = 0.0
     @interest_balance = 0.0
-    @remaining_credit = credit_limit#WRITE SPECS
+    @remaining_credit = credit_limit
     @transaction_history = []
     @last_transaction_day = 0
   end
 
   def import_transaction(transaction)
     self.transaction_history << validate_transaction(transaction)
+    update_balances(transaction)
+  end
+
+  def update_balances(transaction)
     if transaction_history.length == 1
       self.principle_balance = transaction.value
       self.interest_balance += recent_interest(transaction.day)
-      self.remaining_credit = credit_limit - principle_balance - interest_balance
-      self.last_transaction_day = transaction.day
     else
-      update_balances(transaction)
+      self.interest_balance += recent_interest(transaction.day)
+      self.principle_balance += transaction.value
     end
-  end
-
-  def update_balances(transaction)#WRITE SPECS
-    self.interest_balance += recent_interest(transaction.day)
-    self.principle_balance += transaction.value
-    self.remaining_credit = credit_limit - principle_balance - interest_balance
     self.last_transaction_day = transaction.day
-  end
-
-  def recent_interest(current_day)#WRITE SPECS
-    daily_interest * accumulation_period(current_day)
-  end
-
-  def accumulation_period(current_day)#WRITE SPECS
-    current_day - last_transaction_day
-  end
-
-  def daily_interest#WRITE SPECS
-
-    (principle_balance * apr) / 365.0
+    self.remaining_credit = credit_limit - principle_balance - interest_balance
   end
 
   def current_statement(current_day)
@@ -70,13 +55,26 @@ private
   end
 
   def validate_transaction(transaction)
-    raise "#withdrawal would violate credit_limit" unless true#Write #over_credit_limit?
-    raise "#payment would create a negative balance" unless true#Write #over_payment?
+    raise "#withdrawal would violate credit_limit" unless true#Impliment #over_credit_limit?(transaction)
+    raise "#payment would create a negative balance" unless true#Write #over_payment?(transaction)
     transaction
   end
 
-  def sort_transaction_history
-    self.transaction_history.sort! { |a,b| a.day <=> b.day }
+  def over_credit_limit?(transaction)
+    !!(transaction.value > current_statement(transaction.day)[:remaining_credit])
+  end
+
+#CALCULATIONS
+  def daily_interest
+    (principle_balance * apr) / 365.0
+  end
+
+  def accumulation_period(current_day)
+    current_day - last_transaction_day
+  end
+
+  def recent_interest(current_day)
+    daily_interest * accumulation_period(current_day)
   end
 
 end#CreditLine
