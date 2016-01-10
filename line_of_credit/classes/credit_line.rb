@@ -25,22 +25,25 @@ class CreditLine
   # end
 
   def update_balances(transaction)#WRITE SPECS
+      self.interest_balance += transaction_day_adjustment(transaction)
       # self.interest_balance += day_of_transaction_adjustment(t)
       self.interest_balance += recent_interest(transaction.day)
       self.principle_balance += transaction.value
       self.remaining_credit = credit_limit - principle_balance - interest_balance
   end
 
-  def current_statment(current_day)#WRITE SPECS
-    {credit_limit: credit_limit,
-    apr: apr,
-    principle_balance: principle_balance,
-    interest_balance: interest_balance + recent_interest(current_day),
-    remaining_credit: remaining_credit - recent_interest(current_day)}
+  def current_statement(current_day)#WRITE SPECS
+    {
+    credit_limit: "$#{credit_limit.round(2)}",
+    apr: "%#{(apr * 100).round(2)}",
+    principle_balance: "#{principle_balance.round(2)}",
+    interest_balance: "$#{(interest_balance + recent_interest(current_day)).round(2)}",
+    total_balance: "$#{(principle_balance + interest_balance + recent_interest(current_day)).round(2)}",
+    remaining_credit: "$#{(remaining_credit - recent_interest(current_day)).round(2)}"}
   end
 
   def recent_interest(current_day)#WRITE SPECS
-    daily_interest * accumulation_period(current_day)
+    daily_interest_principle * accumulation_period(current_day)
   end
 
   def accumulation_period(current_day)#WRITE SPECS
@@ -59,12 +62,16 @@ class CreditLine
     # self.interest_balance += principle_balance * apr * (final_period_length/365.0)
   end
 
-  def daily_interest#WRITE SPECS
+  def daily_interest_principle#WRITE SPECS
     (principle_balance * apr) / 365.0
   end
 
+  def daily_interest_transaction(transaction)#WRITE SPECS
+    (transaction.amount * apr) / 365.0
+  end
+
   def transaction_day_adjustment(transaction)#WRITE SPECS
-    transaction.withdrawal? ? daily_interest(transaction) : -(daily_interest(transaction)/2.0)
+    transaction.withdrawal? ? daily_interest_transaction(transaction) : -(daily_interest_transaction(transaction)/2.0)
   end
 
 private

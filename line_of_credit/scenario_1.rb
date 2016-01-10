@@ -12,12 +12,24 @@ require_relative "classes/client"
 client = Client.new
 credit_line = client.open_credit_line(1000, 35)
 client.make_withdrawal(credit_line, 500, 1)
+statement = credit_line.current_statement(30)
 
-credit_line.update_interest_balance(30)
-print "Clients's principle balance is 500: "
-p 500.0 == credit_line.principle_balance
-print "Client's interest balance is 14.38: "
-p 14.38 == credit_line.interest_balance.round(2)
+puts "Client's total balance should be $514.38."
+puts "Statement: #{statement[:total_balance]}"
+puts "Clients's principle balance should be 500."
+puts "Statement: #{statement[:principle_balance]}"
+puts "Client's interest_balance should be $14.38."
+puts "Statement: #{statement[:interest_balance]}"
+puts "Client's remaining credit should be $485.62."
+puts "Statement: #{statement[:remaining_credit]}"
+
+
+
+
+
+# assert(600.0 == credit_line.current_statement(30)[:principle_balance])
+# print "Client's interest balance is 14.38: "
+# p 14.38 == credit_line.interest_balance.round(2)
 
 
 
