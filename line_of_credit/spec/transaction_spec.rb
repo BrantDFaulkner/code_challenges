@@ -28,7 +28,7 @@ describe "Transaction" do
     end#day
 
     describe '#type' do
-      it "shoudl respond to #type" do
+      it "should respond to #type" do
         expect(transaction).to respond_to(:type)
       end
 
@@ -37,4 +37,31 @@ describe "Transaction" do
       end
     end#type
   end#initialize
+
+  describe '#value' do
+    it "should respond to #value" do
+      expect(transaction).to respond_to(:value)
+    end
+
+    it "should return numeric" do
+      expect(transaction.value).to be_a(Numeric)
+    end
+  end#value
+
+  context "transaction is a :payment" do
+    transaction = Transaction.new(100, 5, :payment)
+    describe '#payment?' do
+      it "should return true" do
+        expect(transaction.payment?).to be_truthy
+      end
+    end#payment?
+
+    describe '#withdrawal?' do
+      it "should return true" do
+        expect(transaction.withdrawal?).to be_falsey
+      end
+    end#withdrawal?
+  end#context
+
+
 end#Transaction

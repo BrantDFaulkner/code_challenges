@@ -3,44 +3,37 @@ class Transaction
   attr_reader :amount, :day, :type
 
   def initialize(amount, day, type)
-    @type = validate_type(type)
     @amount = validate_amount(amount)
     @day = validate_day(day)
-    @value = set_value#!!!! NOT TESTED
+    @type = validate_type(type)
   end
 
-  def set_value#!!!!!! NOT TESTED
+  def value
     withdrawal? ? amount : -amount
   end
 
-  def validate_amount(amount)
-    if !amount.is_a?(Numeric)
-      raise "#amount must be a number."
-    else
-      amount.to_f
-    end
+  def payment?
+    !!(type == :payment)
   end
 
   def withdrawal?
     !!(type == :withdrawal)
   end
 
+  def validate_amount(amount)
+    raise "#amount must be a number." unless amount.is_a?(Numeric)
+    amount.to_f
+  end
+
   def validate_day(day)
-    if !day.is_a?(Numeric)
-      raise "#day must be a number"
-    elsif !day.between?(1, 30)
-      raise "#day must be between 1 and 30 inclusive."
-    else
-      day.to_i
-    end
+    raise "#day must be a number" unless day.is_a?(Numeric)
+    raise "#day must be between 1 and 30 inclusive." unless day.between?(1, 30)
+    day.to_i
   end
 
   def validate_type(type)
-    if ![:payment, :withdrawal].include?(type)
-      raise "#type must be :payment or :withdrawal"
-    else
-      type
-    end
+    raise "#type must be :payment or :withdrawal" unless [:payment, :withdrawal].include?(type)
+    type
   end
 
 end#Transaction
