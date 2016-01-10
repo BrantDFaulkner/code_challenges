@@ -15,31 +15,19 @@ class CreditLine
     @transaction_history = []
   end
 
-  def validate_credit_limit(credit_limit)
-    if !credit_limit.is_a?(Numeric)
-      raise "#credit_limit must be numeric."
-    elsif credit_limit > 10000
-      raise "#credit_limit over 10000 requires special authorization."
-    else
-      credit_limit.to_f
-    end
-  end
-
-  def validate_apr(apr)
-    if !apr.is_a?(Numeric)
-      raise "#apr must be numeric."
-    elsif !apr.between?(0, 100)
-      raise "#apr must be between 0 and 100 inclusive."
-    else
-      apr/100.0
-    end
-  end
-
   def import_transaction(transaction)
-    if transaction_history.last && transaction.day <= transaction_history.last.day
-      self.transaction_history.sort! { |a,b| a.day <=> b.day}
-    end
-      self.transaction_history << transaction
+    sort_transaction_history if !transaction_history.empty? && transaction.day <= transaction_history.last.day
+    self.transaction_history << validate_transaction(transaction)
+  end
+
+  def validate_transaction(transaction)
+    raise "#withdrawal would violate credit_limit" unless true#Write #check_for_credit_limit_violation
+    raise "#payment would create a negative balance" unless true#Write #check_for_over_payment
+    transaction
+  end
+
+  def sort_transaction_history
+    self.transaction_history.sort! { |a,b| a.day <=> b.day }
   end
 
   def update_principle_balance
@@ -67,6 +55,20 @@ class CreditLine
 
   def day_of_transaction_adjustment(transaction)#!!!!!!!NOT TESTED
     transaction.withdrawal? ? daily_interest(transaction) : -(daily_interest(transaction)/2.0)
+  end
+
+private
+#VALIDATIONS
+  def validate_credit_limit(credit_limit)
+    raise "#credit_limit must be numeric." unless credit_limit.is_a?(Numeric)
+    raise "#credit_limit over 10000 requires special authorization." unless credit_limit <= 10000
+    credit_limit.to_f
+  end
+
+  def validate_apr(apr)
+    raise "#apr must be numeric." unless apr.is_a?(Numeric)
+    raise "#apr must be between 0 and 100 inclusive." unless apr.between?(0, 100)
+    apr/100.0
   end
 
 end#CreditLine

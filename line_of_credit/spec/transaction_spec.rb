@@ -63,5 +63,4 @@ describe "Transaction" do
     end#withdrawal?
   end#context
 
-
 end#Transaction

@@ -6,7 +6,7 @@ describe "CreditLine" do
   let(:credit_line) { CreditLine.new(1000, 35) }
   describe "#initialize" do
     describe '#credit_limit' do
-      it "should respond to #type" do
+      it "should respond to #credit_limit" do
         expect(credit_line).to respond_to(:credit_limit)
       end
 
