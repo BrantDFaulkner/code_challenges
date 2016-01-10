@@ -61,11 +61,11 @@ class CreditLine
     self.interest_balance += principle_balance * apr * (final_period_length/365.0)
   end
 
-  def daily_interest(transaction)
+  def daily_interest(transaction)#!!!!!!!NOT TESTED
     (transaction.amount * apr) / 365.0
   end
 
-  def day_of_transaction_adjustment(transaction)
+  def day_of_transaction_adjustment(transaction)#!!!!!!!NOT TESTED
     transaction.withdrawal? ? daily_interest(transaction) : -(daily_interest(transaction)/2.0)
   end
 

@@ -82,10 +82,10 @@ describe "CreditLine" do
       end
     end
 
-    describe "#update_interest_balance" do
-      it "should update the interest balance at a specific day"
-      credit_line.update_interest_balance(30)
-    end
+    # describe "#update_interest_balance" do
+    #   it "should update the interest balance at a specific day"
+    #   credit_line.update_interest_balance(30)
+    # end
 
 
   end#context
