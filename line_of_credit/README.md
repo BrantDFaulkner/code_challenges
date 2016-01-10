@@ -1,3 +1,7 @@
+##Language
+I was allowed to choose the language with which to complete this challenge.
+
+I chose to use Ruby because the challenge lends itself to an object oriented solution and test framework(RSpec). Additionally, Ruby is my primary coding language.
 
 ##Prompt
 Create an implementation of the following:
