@@ -64,8 +64,8 @@ describe "CreditLine" do
     credit_line = CreditLine.new(1000, 35)
     transactions = [
       Transaction.new(500, 1, :withdrawal),
-      Transaction.new(100, 25, :payment),
-      Transaction.new(200, 5, :withdrawal)
+      Transaction.new(100, 5, :payment),
+      Transaction.new(200, 25, :withdrawal)
     ]
     transactions.each { |t| credit_line.import_transaction(t)}
 
