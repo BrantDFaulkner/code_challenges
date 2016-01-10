@@ -51,40 +51,22 @@ class CreditLine
     return 0 if transaction_history.empty?
     last_day = 0
     transaction_history.each do |t|
-      self.interest_balance += day_of_withdrawal_interest(t) if t.withdrawal?
+      self.interest_balance += day_of_transaction_adjustment(t)
       period_length = t.day - last_day
       last_day = t.day
       self.interest_balance += principle_balance * apr * (period_length/365.0)
       self.principle_balance += t.value
     end
-    puts "final_period_length"
-    p final_period_length = final_day - last_day
-    puts "final period interest balance"
-    p self.interest_balance += principle_balance * apr * (final_period_length/365.0)
+    final_period_length = final_day - last_day
+    self.interest_balance += principle_balance * apr * (final_period_length/365.0)
   end
 
-  def day_of_withdrawal_interest(transaction)
+  def daily_interest(transaction)
     (transaction.amount * apr) / 365.0
   end
 
-
-  # current_principle = principle_balance
-  #   # current_interest = interest_balance
-
-  #   # #update principle
-  #   # if transaction.type == :payment
-  #   #   adjusted_principle = current_principle - transaction.amount
-  #   # end
-
-  #   # #update interest
-
-  def generate_thirty_day_statement
-    # He should owe 500$ * 0.35 / 365 * 30 = 14.38$ worth of interest on day 30
-
-
-
-
-
+  def day_of_transaction_adjustment(transaction)
+    transaction.withdrawal? ? daily_interest(transaction) : -(daily_interest(transaction)/2.0)
   end
 
 end#CreditLine
