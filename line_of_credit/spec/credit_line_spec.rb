@@ -167,6 +167,12 @@ describe "CreditLine" do
       expect(credit_line).to receive(:remaining_credit=)
       credit_line.send(:update_balances, transaction)
     end
+  end#update_balances
+
+  describe "#current_statement" do
+    it "should return a hash" do
+      expect(credit_line.current_statement(transaction.day)).to be_a(Hash)
+    end
   end
 
 end#CreditLine

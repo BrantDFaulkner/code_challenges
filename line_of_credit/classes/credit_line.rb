@@ -21,25 +21,15 @@ class CreditLine
     update_balances(transaction)
   end
 
-  def update_balances(transaction)
-    if transaction_history.length == 1
-      self.principle_balance = transaction.value
-      self.interest_balance += recent_interest(transaction.day)
-    else
-      self.interest_balance += recent_interest(transaction.day)
-      self.principle_balance += transaction.value
-    end
-    self.last_transaction_day = transaction.day
-    self.remaining_credit = credit_limit - principle_balance - interest_balance
-  end
-
   def current_statement(current_day)
-    {credit_limit: credit_limit.round(2),
-    apr: apr,
-    principle_balance: principle_balance.round(2),
-    interest_balance: (interest_balance + recent_interest(current_day)).round(2),
-    total_balance: (principle_balance + interest_balance + recent_interest(current_day)).round(2),
-    remaining_credit: (remaining_credit - recent_interest(current_day)).round(2)}
+    statement = {
+      credit_limit: credit_limit.round(2),
+      apr: apr,
+      principle_balance: principle_balance.round(2),
+      interest_balance: (interest_balance + recent_interest(current_day)).round(2),
+      total_balance: (principle_balance + interest_balance + recent_interest(current_day)).round(2),
+      remaining_credit: (remaining_credit - recent_interest(current_day)).round(2)
+    }
   end
 
 private
@@ -72,6 +62,18 @@ private
     transaction.value.abs > principle_balance + interest_balance + recent_interest(transaction.day)
   end
 #update_balance
+  def update_balances(transaction)
+    if transaction_history.length == 1
+      self.principle_balance = transaction.value
+      self.interest_balance += recent_interest(transaction.day)
+    else
+      self.interest_balance += recent_interest(transaction.day)
+      self.principle_balance += transaction.value
+    end
+    self.last_transaction_day = transaction.day
+    self.remaining_credit = credit_limit - principle_balance - interest_balance
+  end
+
   def daily_interest
     (principle_balance * apr) / 365.0
   end
