@@ -13,11 +13,11 @@ class Transaction
   end
 
   def payment?
-    !!(type == :payment)
+    type == :payment
   end
 
   def withdrawal?
-    !!(type == :withdrawal)
+    type == :withdrawal
   end
 
   def validate_amount(amount)

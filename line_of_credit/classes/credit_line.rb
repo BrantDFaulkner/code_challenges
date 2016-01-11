@@ -61,7 +61,7 @@ private
   end
 
   def over_credit_limit?(transaction)
-    !!(transaction.value > current_statement(transaction.day)[:remaining_credit])
+    transaction.value > remaining_credit - recent_interest(transaction.day)
   end
 
 #CALCULATIONS
