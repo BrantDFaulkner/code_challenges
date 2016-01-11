@@ -1,58 +1,65 @@
-// for (i = 0; i < cars.length; i++) {
-//     text += cars[i] + "<br>";
+
+function presentFactors(array) {
+  var object = createObject(array);
+  for (var property in object) {
+    if (object.hasOwnProperty(property)) {
+        object[property] = findFactors(property);
+    }
+  }
+  return object;
+}
+
+
+
+// function isBigEnough(value) {
+//   return value >= 10;
 // }
+// var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+// // filtered is [12, 130, 44]
 
-// if (condition) {
-//     block of code to be executed if the condition is true
-// } else {
-//     block of code to be executed if the condition is false
-// }
 
-// while (condition) {
-//     code block to be executed
-// }
 
-// The For/In Loop
-// The JavaScript for/in statement loops through the properties of an object:
 
-// Example
-// var person = {fname:"John", lname:"Doe", age:25};
-
-// var text = "";
-// var x;
-// for (x in person) {
-//     text += person[x];
-// }
-
-var includedFactors = function(array) {
-
-};
-
-var createObject = function(array) {
-  var length = array.length;
+function createObject(array) {
   var object = {};
-  for (var i = 0; i < length; i ++) {
+  var length = array.length;
+
+  for (var i = 0; i < length; i++) {
     var key = array[i];
     object[key] = [];
   }
   return object;
-};
+}
 
 
-var findFactors = function(num) {
-  var max = maxFactor(num);
+function findFactors(num) {
   var factors = [];
+  var max = maxFactor(num);
+
   for ( var i = 2; i <= max; i++) {
     if (num % i === 0) {
       factors.unshift(i);
     }
   }
   return factors;
-};
+}
 
-var maxFactor = function(num) {
+function present(num, array) {
+  var length = array.length;
+  for ( var i = 0; i < length; i++ ) {
+    if (num === array[i]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+
+function maxFactor(num) {
   return Math.floor(num/2);
-};
+}
+
 
 
 

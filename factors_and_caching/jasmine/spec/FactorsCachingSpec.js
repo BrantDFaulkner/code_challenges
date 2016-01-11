@@ -6,7 +6,14 @@ describe("FactorsCaching", function() {
           expect(maxFactor(10)).toBe(5);
           expect(maxFactor(99)).toBe(49);
       });
-    });//maxFactor;
+    });//maxFactor
+
+    describe("present", function() {
+      it("should check if the number is present", function() {
+          expect(present(10, [8,5])).toBe(false);
+          expect(present(10, [10,5])).toBe(true);
+      });
+    });//present
 
     it("should return an array of factors", function() {
       expect(findFactors(10)).toEqual([5,2]);
@@ -20,11 +27,11 @@ describe("FactorsCaching", function() {
     });
   });//createObject;
 
-  describe("includedFactors", function() {
+  describe("presentFactors", function() {
     xit("should return an object with array elemements as keys and their factors, also present in the array, as the corresponding values", function(){
-      expect(includedFactors([10, 5, 2, 20])).toEqual({10: [5, 2], 5: [], 2: [], 20: [10,5,2]});
+      expect(presentFactors([10, 5, 2, 20])).toEqual({10: [5, 2], 5: [], 2: [], 20: [10,5,2]});
     });
-  });//includedFactors
+  });//presentFactors
 });//FactorsCaching
 
 
