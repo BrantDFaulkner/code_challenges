@@ -7,22 +7,22 @@ I chose to complete this challenge in JavaScript for a few reasons:
 -I had had basic exposure to scripting with JavaScript.
 
 ##Additional Questions Responses
-####What if you were to cache the calculation? What would an example impementation look like?
+1.####What if you were to cache the calculation? What would an example impementation look like?
 
 My solution utilizes six methods some of which may benefit from implementing a cache.
 
-present(num, array);
+..*present(num, array);
   This method itterates over an array looking for the number. It will stop upon finding the number or reaching the end of the array.
 
-intersection(factors, pool);
+..*intersection(factors, pool);
   This method itterates over the array of factors to find the intersection of the two arrays. Much of the calculation costs is tied to function present();
 
 
 
 
-####What is the performance of your caching implementation? Is there any way to make it more performant?
+2.####What is the performance of your caching implementation? Is there any way to make it more performant?
 
-####What if you wanted to reverse the functionality?
+3.####What if you wanted to reverse the functionality?
 Input: [10, 5, 2, 20]
 
 Output: {10: [20], 5: [10,20], 2: [10, 20], 20: []}
