@@ -4,18 +4,48 @@ require_relative "../classes/transaction"
 describe "CreditLine" do
   let(:credit_line) { CreditLine.new(1000, 35) }
   let(:transaction) { Transaction.new(500, 10, :withdrawal) }
+  let(:credit_limit) { 1000 }
+  let(:apr) { 35 }
   describe "#initialize" do
+    describe "#validate_arguments" do
+      describe "#validate_credit_limit" do
+        it "should raise error if not numeric" do
+          expect { CreditLine.new("invalid", 35) }.to raise_error(RuntimeError)
+        end
+
+        it "should raise error if amount is over 10000" do
+          expect { CreditLine.new(100000, 35) }.to raise_error(RuntimeError)
+        end
+      end#validate_credit_limit
+
+      describe "#validate_apr" do
+        it "should raise error if not numeric" do
+          expect { CreditLine.new(1000, "invalid") }.to raise_error(RuntimeError)
+        end
+
+        it "should raise error if apr is over 100" do
+          expect { CreditLine.new(1000, 101) }.to raise_error(RuntimeError)
+        end
+      end#validate_apr
+
+      it "should call #validate_credit_limit" do
+        expect(credit_line).to receive(:validate_credit_limit).with(credit_limit)
+        credit_line.send(:validate_arguments, credit_limit, apr)
+      end
+
+      it "should call #validate_apr" do
+        expect(credit_line).to receive(:validate_apr).with(apr)
+        credit_line.send(:validate_arguments, credit_limit, apr)
+      end
+    end#validate_arguments
+
     describe '#credit_limit' do
       it "should respond to #credit_limit" do
         expect(credit_line).to respond_to(:credit_limit)
       end
 
-      it "should raise error if amount is invalid" do
-        expect { CreditLine.new("invalid", 35) }.to raise_error(RuntimeError)
-      end
-
-      it "should raise error if amount is over 10000" do
-        expect { CreditLine.new(100000, 35) }.to raise_error(RuntimeError)
+      it "should be a float" do
+        expect(credit_line.credit_limit).to be_a(Float)
       end
     end#credit_limit
 
@@ -24,12 +54,8 @@ describe "CreditLine" do
         expect(credit_line).to respond_to(:apr)
       end
 
-      it "should raise error if apr is invalid" do
-        expect { CreditLine.new(1000, "invalid") }.to raise_error(RuntimeError)
-      end
-
-      it "should raise error if apr is outside range 0-100" do
-        expect { CreditLine.new(1000, 150) }.to raise_error(RuntimeError)
+      it "should be a float" do
+        expect(credit_line.apr).to be_a(Float)
       end
     end#apr
 

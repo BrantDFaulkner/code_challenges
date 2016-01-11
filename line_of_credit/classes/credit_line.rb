@@ -5,8 +5,9 @@ class CreditLine
   attr_reader :credit_limit, :apr
 
   def initialize(credit_limit, apr)
-    @credit_limit = validate_credit_limit(credit_limit)
-    @apr = validate_apr(apr)
+    validate_arguments(credit_limit, apr)
+    @credit_limit = credit_limit.to_f
+    @apr = apr/100.0
     @principle_balance = 0.0
     @interest_balance = 0.0
     @remaining_credit = credit_limit
@@ -43,16 +44,19 @@ class CreditLine
 
 private
 #VALIDATIONS
+  def validate_arguments(credit_limit, apr)
+    validate_credit_limit(credit_limit)
+    validate_apr(apr)
+  end
+
   def validate_credit_limit(credit_limit)
     raise "#credit_limit must be numeric." unless credit_limit.is_a?(Numeric)
     raise "#credit_limit over 10000 requires special authorization." unless credit_limit <= 10000
-    credit_limit.to_f
   end
 
   def validate_apr(apr)
     raise "#apr must be numeric." unless apr.is_a?(Numeric)
     raise "#apr must be between 0 and 100 inclusive." unless apr.between?(0, 100)
-    apr/100.0
   end
 
   def validate_transaction(transaction)
