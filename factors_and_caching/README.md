@@ -30,7 +30,7 @@ var presentCache = {
 ---
 
  ```javascript
-function intersection(factprs, pool) {...}
+function intersection(factors, pool) {...}
 ```
 
 **_intersection()_** iterates over the array of factors to find the intersection of the two arrays. Much of the calculation costs is tied to function **_present()_**.
