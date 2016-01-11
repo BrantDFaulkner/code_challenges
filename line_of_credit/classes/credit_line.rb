@@ -15,7 +15,8 @@ class CreditLine
   end
 
   def import_transaction(transaction)
-    self.transaction_history << validate_transaction(transaction)
+    validate_transaction(transaction)
+    self.transaction_history << transaction
     update_balances(transaction)
   end
 
@@ -55,13 +56,16 @@ private
   end
 
   def validate_transaction(transaction)
-    raise "#withdrawal would violate credit_limit" unless true#Impliment #over_credit_limit?(transaction)
-    raise "#payment would create a negative balance" unless true#Write #over_payment?(transaction)
-    transaction
+    raise "#withdrawal would violate credit_limit" if transaction.withdrawal? &&over_credit_limit?(transaction)
+    raise "#payment would create a negative balance" if transaction.payment? && over_payment?(transaction)
   end
 
   def over_credit_limit?(transaction)
     transaction.value > remaining_credit - recent_interest(transaction.day)
+  end
+
+  def over_payment?(transaction)
+    transaction.value.abs > principle_balance + interest_balance + recent_interest(transaction.day)
   end
 
 #CALCULATIONS

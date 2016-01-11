@@ -1,7 +1,6 @@
 require_relative "../classes/credit_line"
 require_relative "../classes/transaction"
 
-
 describe "CreditLine" do
   let(:credit_line) { CreditLine.new(1000, 35) }
   let(:transaction) { Transaction.new(500, 10, :withdrawal) }
@@ -39,7 +38,7 @@ describe "CreditLine" do
         expect(credit_line).to respond_to("principle_balance")
       end
 
-      it "should be zero" do
+      it "should be 0.0" do
         expect(credit_line.principle_balance).to equal(0.0)
       end
     end#principle_balance
@@ -61,26 +60,47 @@ describe "CreditLine" do
     end#transaction_history
   end#initialize
 
-  context "make three transactions" do
-    credit_line = CreditLine.new(1000, 35)
-    transactions = [
-      Transaction.new(500, 1, :withdrawal),
-      Transaction.new(100, 5, :payment),
-      Transaction.new(200, 25, :withdrawal)
-    ]
-    transactions.each { |t| credit_line.import_transaction(t)}
+  describe "#import_transaction" do
+    describe "#validate_transaction" do
+      describe "#over_credit_limit?" do
+        it "should return true" do
+          transaction = Transaction.new(5000, 10, :withdrawal)
+          expect(credit_line.send(:over_credit_limit?, transaction)).to be_truthy
+        end
 
-    describe "#import_transaction" do
-      it "should add a transaction to the #transaction_history" do
-        expect(credit_line.transaction_history.length).to equal(3)
-      end
-    end#import_transaction
-  end#context
+        it "should return false" do
+          transaction = Transaction.new(500, 10, :withdrawal)
+          expect(credit_line.send(:over_credit_limit?, transaction)).to be_falsey
+        end
+      end#over_credit_limit
 
-  describe "#over_credit_limit" do
-    credit_line = CreditLine.new(1000, 35)
-    it "should return a boolean" do
-      expect([true, false]).to include(credit_line.send(:over_credit_limit?, transaction))
+      describe "#over_payment?" do
+        it "should return true" do
+          transaction = Transaction.new(5000, 10, :payment)
+          expect(credit_line.send(:over_payment?, transaction)).to be_truthy
+        end
+
+        it "should return true" do
+          transaction = Transaction.new(0, 10, :payment)
+          expect(credit_line.send(:over_payment?, transaction)).to be_falsey
+        end
+      end#over_payment
+    end#validate_transaction
+
+    it "should call #validate_transaction" do
+      expect(credit_line).to receive(:validate_transaction).with(transaction)
+      credit_line.send(:validate_transaction, transaction)
     end
-  end#over_credit_limit
-end#Transaction
+
+    it "should add a transaction to #transaction_history" do
+      credit_line.import_transaction(transaction)
+      expect(credit_line.transaction_history.empty?).to be_falsey
+    end
+
+    it "should call #update_balances" do
+      expect(credit_line).to receive(:update_balances).with(transaction)
+      credit_line.send(:update_balances, transaction)
+    end
+  end#import_transaction
+
+end#CreditLine

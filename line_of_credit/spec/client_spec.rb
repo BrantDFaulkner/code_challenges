@@ -18,12 +18,12 @@ describe "Client" do
       expect(client).to respond_to(:make_payment)
     end
 
-    it "should make a payment transaction to the credit_line" do
-      client.make_payment(credit_line, 100, 5)
-      history = credit_line.transaction_history
-      expect(history.length).to be(1)
-      expect(history[0].withdrawal?).to be_falsey
-    end
+    # it "should make a payment transaction to the credit_line" do
+    #   client.make_payment(credit_line, 100, 5)
+    #   history = credit_line.transaction_history
+    #   expect(history.length).to be(1)
+    #   expect(history[0].withdrawal?).to be_falsey
+    # end
   end#make_payment
 
   describe "#make_withdrawal" do
