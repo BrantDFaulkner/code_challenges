@@ -13,7 +13,9 @@ I chose to complete this challenge in JavaScript for a few reasons:
 
 ####What if you wanted to reverse the functionality?
 Input: [10, 5, 2, 20]
+
 Output: {10: [20], 5: [10,20], 2: [10, 20], 20: []}
+
 Would this change your caching algorithim?
 
 ##Prompt
