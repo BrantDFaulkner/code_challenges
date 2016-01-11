@@ -1,5 +1,21 @@
 #Factors and Caching
 
+##Language
+I chose to complete this challenge in JavaScript for a few reasons:
+-JavaScript offers itteration methods that would allow me to build a solution.
+-Jasmine is a great testing framework for test/behavior driven development.
+-I had had basic exposure to scripting with JavaScript.
+
+##Additional Questions Responses
+###What if you were to cache the calculation? What would an example impementation look like?
+
+###What is the performance of your caching implementation? Is there any way to make it more performant?
+
+###What if you wanted to reverse the functionality?
+Input: [10, 5, 2, 20]
+Output: {10: [20], 5: [10,20], 2: [10, 20], 20: []}
+Would this change your caching algorithim?
+
 ##Prompt
 Accomplish in a language of your choice:
 
