@@ -129,4 +129,44 @@ describe "CreditLine" do
     end
   end#import_transaction
 
+  describe "#update_balances" do
+    describe "#daily_interest" do
+      it "should return a float" do
+        expect(credit_line.send(:daily_interest)).to be_a(Float)
+      end
+    end#daily_interest
+
+    describe "#accumulation_period" do
+      it "should return an integer" do
+        expect(credit_line.send(:accumulation_period, (transaction.day))).to be_a(Integer)
+      end
+    end#accumulation_period
+
+    describe "#recent_interest" do
+      it "should return an integer" do
+        expect(credit_line.send(:recent_interest, (transaction.day))).to be_a(Float)
+      end
+    end#recent_interest
+
+    it "should call #principle_balance" do
+      expect(credit_line).to receive(:principle_balance=)
+      credit_line.send(:update_balances, transaction)
+    end
+
+    it "should call #interest_balance" do
+      expect(credit_line).to receive(:interest_balance=)
+      credit_line.send(:update_balances, transaction)
+    end
+
+    it "should call #last_transaction_day" do
+      expect(credit_line).to receive(:last_transaction_day=)
+      credit_line.send(:update_balances, transaction)
+    end
+
+    it "should call #remaining_credit" do
+      expect(credit_line).to receive(:remaining_credit=)
+      credit_line.send(:update_balances, transaction)
+    end
+  end
+
 end#CreditLine

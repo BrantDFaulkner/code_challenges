@@ -43,7 +43,7 @@ class CreditLine
   end
 
 private
-#VALIDATIONS
+#validate_arguments
   def validate_arguments(credit_limit, apr)
     validate_credit_limit(credit_limit)
     validate_apr(apr)
@@ -58,7 +58,7 @@ private
     raise "#apr must be numeric." unless apr.is_a?(Numeric)
     raise "#apr must be between 0 and 100 inclusive." unless apr.between?(0, 100)
   end
-
+#validate_transaction
   def validate_transaction(transaction)
     raise "#withdrawal would violate credit_limit" if transaction.withdrawal? &&over_credit_limit?(transaction)
     raise "#payment would create a negative balance" if transaction.payment? && over_payment?(transaction)
@@ -71,8 +71,7 @@ private
   def over_payment?(transaction)
     transaction.value.abs > principle_balance + interest_balance + recent_interest(transaction.day)
   end
-
-#CALCULATIONS
+#update_balance
   def daily_interest
     (principle_balance * apr) / 365.0
   end
