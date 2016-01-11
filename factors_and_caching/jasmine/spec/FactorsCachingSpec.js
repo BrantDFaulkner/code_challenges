@@ -10,7 +10,7 @@ describe("FactorsCaching", function() {
 
     describe("present", function() {
       it("should check if the number is present", function() {
-          expect(present(10, [8,5])).toBe(false);
+          expect(present(10, [8,5])).toBe(undefined);
           expect(present(10, [10,5])).toBe(true);
       });
     });//present
@@ -20,6 +20,12 @@ describe("FactorsCaching", function() {
       expect(findFactors(20)).toEqual([10,5,4,2]);
     });
   });//findFactors
+
+  describe("intersection", function() {
+    it("should return the intersection of two arrays", function() {
+        expect(intersection([1,2,3],[1,2,3,4,5])).toEqual([1,2,3]);
+    });
+  });//intersection;
 
   describe("createObject", function() {
     it("should find the largest potential factor", function() {

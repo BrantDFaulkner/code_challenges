@@ -3,22 +3,13 @@ function presentFactors(array) {
   var object = createObject(array);
   for (var property in object) {
     if (object.hasOwnProperty(property)) {
-        object[property] = findFactors(property);
+      var factors = findFactors(property)
+      var filtered =
+        object[property] = filtered;
     }
   }
   return object;
 }
-
-
-
-// function isBigEnough(value) {
-//   return value >= 10;
-// }
-// var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
-// // filtered is [12, 130, 44]
-
-
-
 
 function createObject(array) {
   var object = {};
@@ -44,17 +35,25 @@ function findFactors(num) {
   return factors;
 }
 
+function intersection(factors, pool) {
+  var interray = [];
+  var length = factors.length;
+  for ( var i = 0; i < length; i++) {
+    if (present(factors[i], pool)) {
+      interray.push(factors[i]);
+    }
+  }
+  return interray;
+}
+
 function present(num, array) {
   var length = array.length;
   for ( var i = 0; i < length; i++ ) {
     if (num === array[i]) {
       return true;
-    } else {
-      return false;
     }
   }
 }
-
 
 function maxFactor(num) {
   return Math.floor(num/2);
