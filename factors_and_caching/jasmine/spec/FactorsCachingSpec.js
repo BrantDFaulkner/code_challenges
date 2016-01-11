@@ -1,19 +1,30 @@
 describe("FactorsCaching", function() {
+
   describe("findFactors", function () {
     describe("maxFactor", function() {
       it("should find the largest potential factor", function() {
           expect(maxFactor(10)).toBe(5);
           expect(maxFactor(99)).toBe(49);
       });
-    })//maxFactor;
+    });//maxFactor;
 
     it("should return an array of factors", function() {
-      expect(findFactors(10)).toEqual([5,2])
-      expect(findFactors(20)).toEqual([10,5,4,2])
+      expect(findFactors(10)).toEqual([5,2]);
+      expect(findFactors(20)).toEqual([10,5,4,2]);
     });
-
-
   });//findFactors
+
+  describe("createObject", function() {
+    it("should find the largest potential factor", function() {
+        expect(createObject([10, 5, 2, 20])).toEqual({10: [], 5: [], 2: [], 20: []});
+    });
+  });//createObject;
+
+  describe("includedFactors", function() {
+    xit("should return an object with array elemements as keys and their factors, also present in the array, as the corresponding values", function(){
+      expect(includedFactors([10, 5, 2, 20])).toEqual({10: [5, 2], 5: [], 2: [], 20: [10,5,2]});
+    });
+  });//includedFactors
 });//FactorsCaching
 
 
