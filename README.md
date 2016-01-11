@@ -1,5 +1,7 @@
-##Code Challenges
+###Code Challenges
 
-This repository shows solutions I have designed and coded to vairous code challenges presented during the application process of a junior development position.
+This repository shows solutions I have designed, coded, and tested for various code challenges presented during the application process for a junior development position.
 
-As these are representative of my current capabilities I cannot accept any foreign pull requests. However, I always welcome and appreciate cunstructive feedback.
+For each challenge, I used test/behavior driven development. I translated the stated objectives into standalone test files to affirm the program meets original specifications.
+
+As always, I welcome and appreciate any constructive feedback.
