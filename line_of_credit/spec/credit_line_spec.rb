@@ -173,6 +173,6 @@ describe "CreditLine" do
     it "should return a hash" do
       expect(credit_line.current_statement(transaction.day)).to be_a(Hash)
     end
-  end
+  end#current_statement
 
 end#CreditLine

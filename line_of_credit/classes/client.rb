@@ -16,4 +16,4 @@ class Client
     credit_line.import_transaction(transaction)
   end
 
-end
+end#Client
