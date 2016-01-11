@@ -3,8 +3,8 @@ function presentFactors(array) {
   var object = createObject(array);
   for (var property in object) {
     if (object.hasOwnProperty(property)) {
-      var factors = findFactors(property)
-      object[property] = intersection(factors, array)
+      var factors = findFactors(property);
+      object[property] = intersection(factors, array);
     }
   }
   return object;
@@ -13,7 +13,6 @@ function presentFactors(array) {
 function createObject(array) {
   var object = {};
   var length = array.length;
-
   for (var i = 0; i < length; i++) {
     var key = array[i];
     object[key] = [];
@@ -21,17 +20,19 @@ function createObject(array) {
   return object;
 }
 
-
 function findFactors(num) {
   var factors = [];
   var max = maxFactor(num);
-
   for ( var i = 2; i <= max; i++) {
     if (num % i === 0) {
       factors.unshift(i);
     }
   }
   return factors;
+}
+
+function maxFactor(num) {
+  return Math.floor(num/2);
 }
 
 function intersection(factors, pool) {
@@ -54,9 +55,6 @@ function present(num, array) {
   }
 }
 
-function maxFactor(num) {
-  return Math.floor(num/2);
-}
 
 
 
