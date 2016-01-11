@@ -7,11 +7,11 @@ I chose to complete this challenge in JavaScript for a few reasons:
 -I had had basic exposure to scripting with JavaScript.
 
 ##Additional Questions Responses
-###What if you were to cache the calculation? What would an example impementation look like?
+####What if you were to cache the calculation? What would an example impementation look like?
 
-###What is the performance of your caching implementation? Is there any way to make it more performant?
+####What is the performance of your caching implementation? Is there any way to make it more performant?
 
-###What if you wanted to reverse the functionality?
+####What if you wanted to reverse the functionality?
 Input: [10, 5, 2, 20]
 Output: {10: [20], 5: [10,20], 2: [10, 20], 20: []}
 Would this change your caching algorithim?
