@@ -12,7 +12,7 @@ I chose to complete this challenge in JavaScript for a few reasons:
 My solution utilizes three methods that may benefit from implementing a cache.
 
 ```javascript
-function present(num, array) {...};
+function present(num, array) {...}
 ```
 
 **_present()_** iterates  over an array looking for the number. It will stop upon finding the number or reaching the end of the array.
@@ -30,7 +30,7 @@ var presentCache = {
 ---
 
  ```javascript
-function intersection(factprs, pool) {...};
+function intersection(factprs, pool) {...}
 ```
 
 **_intersection()_** iterates over the array of factors to find the intersection of the two arrays. Much of the calculation costs is tied to function **_present()_**.
@@ -40,7 +40,7 @@ Implementing the above **_presentCache_** implementation would improve the perfo
 ---
 
 ```javascript
-function findFactors(num) {...};
+function findFactors(num) {...}
 ```
 **_findFactors()_** calculates all factors of an integer, and returns them in an array. Performance could be improved by caching the results of every new **_{ number: [factors]}_**. It might look like this:
 
