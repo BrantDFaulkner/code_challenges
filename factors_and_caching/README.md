@@ -2,20 +2,46 @@
 
 ##Language
 I chose to complete this challenge in JavaScript for a few reasons:
--JavaScript offers itteration methods that would allow me to build a solution.
--Jasmine is a great testing framework for test/behavior driven development.
--I had had basic exposure to scripting with JavaScript.
+  * JavaScript offers itteration methods that would allow me to build a solution.
+  * Jasmine is a great testing framework for test/behavior driven development.
+  * I had had basic exposure to scripting with JavaScript.
 
 ##Additional Questions Responses
-1.####What if you were to cache the calculation? What would an example impementation look like?
+####What if you were to cache the calculation? What would an example impementation look like?
 
-My solution utilizes six methods some of which may benefit from implementing a cache.
+My solution utilizes three methods which may benefit from implementing a cache.
 
-..*present(num, array);
-  This method itterates over an array looking for the number. It will stop upon finding the number or reaching the end of the array.
+```javascript
+function present(num, array) {...};
+```
+  Present() itterates over an array looking for the number. It will stop upon finding the number or reaching the end of the array.
 
-..*intersection(factors, pool);
-  This method itterates over the array of factors to find the intersection of the two arrays. Much of the calculation costs is tied to function present();
+It could create an object to store values that where not/found and perform a lookup prior to itterating over the entire array. This cache would most likely be useful for a long array or if there are duplicate numbers. It could look like this:
+
+```javascript
+var present_cache = {
+  4: true,
+  10: undefined,
+  16: true,
+  17: undefined
+}
+```
+
+
+
+
+ ```javascript
+function intersection(factprs, pool) {...};
+```
+
+  Intersection() itterates over the array of factors to find the intersection of the two arrays. Much of the calculation costs is tied to function present();
+
+ ```javascript
+function findFactors(num) {...}
+```
+FindFactors(); calculates returns an array of all the factors of a give integer.
+
+
 
 
 
