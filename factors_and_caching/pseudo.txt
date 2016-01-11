@@ -9,6 +9,13 @@ Example:
 Input: [10, 5, 2, 20]
 Output: {10: [5, 2], 5: [], 2: [], 20: [10,5,2]}
 
+Pseudo:
+1) Itterate over input array
+2) Break each integer into its factors
+3) Check for factor presence in array
+4) Create hash with positive matches
+
+
 Additional Questions:
 
 1.  What if you were to cache the calculation, for example in the file system.  What would an example implementation
