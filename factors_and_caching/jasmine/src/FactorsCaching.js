@@ -4,8 +4,7 @@ function presentFactors(array) {
   for (var property in object) {
     if (object.hasOwnProperty(property)) {
       var factors = findFactors(property)
-      var filtered =
-        object[property] = filtered;
+      object[property] = intersection(factors, array)
     }
   }
   return object;

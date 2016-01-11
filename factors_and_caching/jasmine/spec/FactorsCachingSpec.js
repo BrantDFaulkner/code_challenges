@@ -34,7 +34,7 @@ describe("FactorsCaching", function() {
   });//createObject;
 
   describe("presentFactors", function() {
-    xit("should return an object with array elemements as keys and their factors, also present in the array, as the corresponding values", function(){
+    it("should return an object with array elemements as keys and their factors, also present in the array, as the corresponding values", function(){
       expect(presentFactors([10, 5, 2, 20])).toEqual({10: [5, 2], 5: [], 2: [], 20: [10,5,2]});
     });
   });//presentFactors
