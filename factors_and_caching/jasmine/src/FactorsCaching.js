@@ -2,10 +2,8 @@
 function presentFactors(array) {
   var object = createObject(array);
   for (var property in object) {
-    if (object.hasOwnProperty(property)) {
-      var factors = findFactors(property);
-      object[property] = intersection(factors, array);
-    }
+    var factors = findFactors(property);
+    object[property] = intersection(factors, array);
   }
   return object;
 }
