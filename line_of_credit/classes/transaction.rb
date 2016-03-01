@@ -1,5 +1,4 @@
 class Transaction
-  attr_accessor :value
   attr_reader :amount, :day, :type
 
   def initialize(amount, day, type)
